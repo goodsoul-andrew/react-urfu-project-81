@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test-coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/goodsoul-andrew/react-urfu-project-81#readme",
   "devDependencies": {
+    "@vitest/coverage-v8": "^5.1.1",
     "oxlint": "^1.95.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.1"

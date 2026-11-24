@@ -24,7 +24,7 @@ class Tag {
         if (typeof this.content === 'string' || this.content === null) {
             return `${tab}<${this.tagName}${propString}>${this.content ?? ''}</${this.tagName}>`
         } else{
-            let contentString = (this.content as Tag[]).map(el => el.toString(tabLevel)).join("")
+            let contentString = (this.content as Tag[]).map(el => el.toString(tabLevel + 1)).join("")
             return `${tab}<${this.tagName}${propString}>${contentString}\n${endTab}</${this.tagName}>`
         }
     }

@@ -5,14 +5,14 @@ class FormBuilder {
         this.fields = new Map();
         this._hasSubmit = false;
     }
-    input(name, options = { as: "input" }) {
+    input(name, options = {}) {
         if (!(name in this.template)) {
             throw new Error(`Field '${name}' does not exist in the template.`);
         }
         this.fields.set(name, { name, options });
     }
     submit(value = "Save") {
-        this.fields.set("submit", { name: "submit", options: { as: "input", type: "submit", value: value, } });
+        this.fields.set("submit", { name: "submit", options: { type: "submit", value: value, } });
         this._hasSubmit = true;
     }
     hasSubmit() {

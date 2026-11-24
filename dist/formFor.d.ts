@@ -1,6 +1,6 @@
 type FieldOptions = {
-    as: "input" | "textarea";
-    [key: string]: string | number | boolean;
+    as?: "input" | "textarea";
+    [key: string]: string | number | boolean | undefined;
 };
 type FieldConfig = {
     name: string;

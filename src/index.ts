@@ -5,3 +5,5 @@ export const HexletCode = {
     formFor,
     Tag
 };
+
+export default HexletCode;

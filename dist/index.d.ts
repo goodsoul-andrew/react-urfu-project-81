@@ -4,3 +4,4 @@ export declare const HexletCode: {
     formFor: typeof formFor;
     Tag: typeof Tag;
 };
+export default HexletCode;

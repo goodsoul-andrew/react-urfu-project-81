@@ -1,16 +1,28 @@
 import { test, expect } from "vitest";
 import formFor from "./formFor.js";
 
-test('default', () => {
+test('default submit with labels', () => {
     const template = { name: 'rob', job: 'hexlet', gender: 'm' };
-    const form = formFor(template, {}, () => {});
+    const form = formFor(template, {}, (f) => {
+        f.submit();
+    });
     expect(form).toBe(
         '<form action="#" method="post">\n' +
-        '  <input name="name" type="text" value="rob"/>\n' +
-        '  <input name="job" type="text" value="hexlet"/>\n' +
-        '  <input name="gender" type="text" value="m"/>\n' +
+        '  <label for="name-input">name</label>\n' +
+        '  <input id="name-input" name="name" type="text" value="rob"/>\n' +
+        '  <label for="job-input">job</label>\n' +
+        '  <input id="job-input" name="job" type="text" value="hexlet"/>\n' +
+        '  <label for="gender-input">gender</label>\n' +
+        '  <input id="gender-input" name="gender" type="text" value="m"/>\n' +
+        '  <input id="submit-button" type="submit" value="Save"/>\n' +
         '</form>'
     );
+});
+test('submit value', () => {
+    const template = { name: 'rob' };
+    const form = formFor(template, {}, (f) => {f.submit("Send")});
+    expect(form).toContain('<input id="submit-button" type="submit" value="Send"/>');
+    expect(form).not.toContain('<input id="submit-button" type="submit" value="Save"/>');
 });
 
 test('default method and action', () => {
@@ -37,8 +49,8 @@ test('textarea', () => {
     const form = formFor(template, {}, (f) => {
         f.input('job', { as: 'textarea', rows: 50, cols: 50});
     });
-    expect(form).toContain('<textarea name="job" rows="50" cols="50">hexlet</textarea>');
-    expect(form).not.toContain('<input name="job"');
+    expect(form).toContain('<textarea id="job-input" name="job" rows="50" cols="50">hexlet</textarea>');
+    expect(form).not.toContain('<input id="job-input" name="job"');
 });
 
 test('input no options', () => {
@@ -46,7 +58,7 @@ test('input no options', () => {
     const form = formFor(template, {}, (f) => {
         f.input('name');
     });
-    expect(form).toContain('<input name="name" type="text" value="rob"/>');
+    expect(form).toContain('<input id="name-input" name="name" type="text" value="rob"/>');
 });
 
 test('wrong field', () => {
@@ -61,13 +73,13 @@ test('wrong field', () => {
 test('input type=number', () => {
     const template = { age: 42 };
     const form = formFor(template, {}, () => {});
-    expect(form).toContain('<input name="age" type="number" value="42"/>');
+    expect(form).toContain('<input id="age-input" name="age" type="number" value="42"/>');
 });
 
 test('input type=checkbox', () => {
     const template = { active: true };
     const form = formFor(template, {}, () => {});
-    expect(form).toContain('<input name="active" type="checkbox" value="true"/>');
+    expect(form).toContain('<input id="active-input" name="active" type="checkbox" value="true"/>');
 });
 
 test('render fields not featured in f', () => {

@@ -15,14 +15,24 @@ type FormTemplate = Record<string, string | number | boolean>;
 
 class FormBuilder {
     private fields = new Map<string, FieldConfig>();
+    private _hasSubmit: boolean = false;
 
-    constructor(private template: FormTemplate) {}
+    constructor (private template: FormTemplate) {}
 
-    input(name: string, options: FieldOptions = {}) {
+    input (name: string, options: FieldOptions = {}) {
         if (!(name in this.template)) {
             throw new Error(`Field '${name}' does not exist in the template.`);
         }
         this.fields.set(name, { name, options });
+    }
+
+    submit (value: string = "Save") {
+        this.fields.set("submit", {name: "submit", options: {type: "submit", value: value, }})
+        this._hasSubmit = true;
+    }
+
+    hasSubmit(): boolean {
+        return this._hasSubmit;
     }
 
     getField(name: string): FieldConfig | undefined {
@@ -38,19 +48,23 @@ type FormForParams = {
 
 type FormParams = Rename<FormForParams, "url", "action">;
 
+function generateLabel(key: string): Tag {
+    return new Tag("label", { for: `${key}-input` }, key);
+}
+
 function generateInput(key: string, value: string | number | boolean, config?: FieldConfig): Tag {
-    const cleanedOptions = {...config?.options};
-    delete cleanedOptions?.as;
+    const cleanedOptions = { ...config?.options };
+    delete cleanedOptions.as;
     if (config?.options.as === "textarea") {
-        return new Tag("textarea", { name: key, ...cleanedOptions }, String(value));
+        return new Tag("textarea", { id: `${key}-input`, name: key, ...cleanedOptions }, String(value));
     }
     switch (typeof value) {
         case "number":
-            return new Tag("input", { name: key, type: "number", value: String(value), ...cleanedOptions });
+            return new Tag("input", { id: `${key}-input`, name: key, type: "number", value: String(value), ...cleanedOptions });
         case "boolean":
-            return new Tag("input", { name: key, type: "checkbox", value: "true", ...cleanedOptions });
+            return new Tag("input", { id: `${key}-input`, name: key, type: "checkbox", value: "true", ...cleanedOptions });
         case "string":
-            return new Tag("input", { name: key, type: "text", value, ...cleanedOptions });
+            return new Tag("input", { id: `${key}-input`, name: key, type: "text", value, ...cleanedOptions });
     }
 }
 
@@ -65,7 +79,14 @@ export default function form(template: FormTemplate, settings: FormForParams, f?
         method: rest.method ?? "post",
     };
 
-    const inputs = Object.entries(template).map(([key, value]) => generateInput(key, value, builder.getField(key)) );
+    const inputs = Object.entries(template).flatMap(([key, value]) => [
+    generateLabel(key),
+    generateInput(key, value, builder.getField(key)),
+    ]);
+    if (builder.hasSubmit()) {
+        const submitConfig = builder.getField("submit");
+        inputs.push(new Tag("input", { id:`${submitConfig?.name ?? "submit"}-button`, ...(submitConfig?.options ?? {}),}));
+    }
 
     return new Tag(
         "form",

@@ -22,7 +22,34 @@ cd react-urfu-project-81
 
 ## Использование
 
-<!-- Добавьте примеры запуска и запись asciinema — именно это смотрит работодатель -->
+```typescript
+import formFor from './formFor.ts';
+
+const template = {
+    name: 'rob',
+    job: 'hexlet',
+    gender: 'm',
+    age: 30,
+    active: true,
+};
+const form = formFor(
+    template,
+    { url: '/users', method: 'post' },
+    (f) => {
+        f.input('name');
+        f.input('job', { as: 'textarea' });
+    },
+);
+```
+```html
+<form action="/users" method="post">
+  <input name="name" type="text" value="rob"/>
+  <textarea name="job">hexlet</textarea>
+  <input name="gender" type="text" value="m"/>
+  <input name="age" type="number" value="30"/>
+  <input name="active" type="checkbox" value="true"/>
+</form>
+```
 
 ---
 

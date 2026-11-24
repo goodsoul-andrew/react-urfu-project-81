@@ -1,5 +1,5 @@
 declare class Tag {
-    static readonly silngularTags: Set<string>;
+    static readonly singularTags: Set<string>;
     readonly tagName: string;
     readonly props: object;
     readonly content: string | Tag[] | null;

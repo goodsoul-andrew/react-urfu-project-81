@@ -1,6 +1,9 @@
+type LabelHtml = Record<string, string>;
 type FieldOptions = {
     as?: "input" | "textarea";
-    [key: string]: string | number | boolean | undefined;
+    label?: string;
+    labelHtml?: LabelHtml;
+    [key: string]: string | number | boolean | LabelHtml | undefined;
 };
 type FieldConfig = {
     name: string;

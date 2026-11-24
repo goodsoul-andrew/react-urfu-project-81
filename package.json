@@ -2,8 +2,10 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![hexlet-check](https://github.com/goodsoul-andrew/react-urfu-project-81/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/goodsoul-andrew/react-urfu-project-81/actions)",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "rm -rf ./dist && tsc",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "test": "vitest run",

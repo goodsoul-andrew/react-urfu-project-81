@@ -2,8 +2,8 @@ import type { Rename } from "./Rename.js";
 import Tag from "./Tag.js";
 
 type FieldOptions = {
-    as: "input" | "textarea";
-    [key: string]: string | number | boolean
+    as?: "input" | "textarea";
+    [key: string]: string | number | boolean | undefined
 };
 
 type FieldConfig = {
@@ -19,7 +19,7 @@ class FormBuilder {
 
     constructor (private template: FormTemplate) {}
 
-    input (name: string, options: FieldOptions = {as: "input"}) {
+    input (name: string, options: FieldOptions = {}) {
         if (!(name in this.template)) {
             throw new Error(`Field '${name}' does not exist in the template.`);
         }
@@ -27,7 +27,7 @@ class FormBuilder {
     }
 
     submit (value: string = "Save") {
-        this.fields.set("submit", {name: "submit", options: {as: "input", type: "submit", value: value, }})
+        this.fields.set("submit", {name: "submit", options: {type: "submit", value: value, }})
         this._hasSubmit = true;
     }
 

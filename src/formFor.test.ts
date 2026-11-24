@@ -47,9 +47,10 @@ test('with method', () => {
 test('textarea', () => {
     const template = { name: 'rob', job: 'hexlet' };
     const form = formFor(template, {}, (f) => {
-        f.input('job', { as: 'textarea', rows: 50, cols: 50});
+        f.input('job', { as: 'textarea'});
     });
-    expect(form).toContain('<textarea id="job-input" name="job" rows="50" cols="50">hexlet</textarea>');
+    console.log(form)
+    expect(form).toContain('<textarea id="job-input" name="job" cols="20" rows="40">hexlet</textarea>');
     expect(form).not.toContain('<input id="job-input" name="job"');
 });
 

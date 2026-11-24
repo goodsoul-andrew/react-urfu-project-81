@@ -56,7 +56,7 @@ function generateInput(key: string, value: string | number | boolean, config?: F
     const cleanedOptions = { ...config?.options };
     delete cleanedOptions.as;
     if (config?.options.as === "textarea") {
-        return new Tag("textarea", { id: `${key}-input`, name: key, ...cleanedOptions }, String(value));
+        return new Tag("textarea", { id: `${key}-input`, name: key, cols: 20, rows: 40, ...cleanedOptions }, String(value));
     }
     switch (typeof value) {
         case "number":

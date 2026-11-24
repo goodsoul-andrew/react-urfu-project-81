@@ -91,7 +91,7 @@ function generateInput(key: string, value: string | number | boolean, config?: F
     }
 }
 
-export default function form(
+export default function formFor(
     template: FormTemplate,
     settings: FormForParams,
     f?: (builder: FormBuilder) => void,
@@ -105,7 +105,7 @@ export default function form(
         action: url ?? "#",
     };
 
-    const inputs = Object.entries(template).flatMap(([key, value]) => [
+    const inputs = Object.entries(template).filter(el => builder.getField(el[0])).flatMap(([key, value]) => [
         generateLabel(key, builder.getField(key)),
         generateInput(key, value, builder.getField(key)),
     ]);

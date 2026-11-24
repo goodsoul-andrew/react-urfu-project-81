@@ -58,7 +58,7 @@ function generateInput(key, value, config) {
             return new Tag("input", { name: key, type: "text", value, ...options });
     }
 }
-export default function form(template, settings, f) {
+export default function formFor(template, settings, f) {
     const builder = new FormBuilder(template);
     f?.(builder);
     const { url, ...rest } = settings;
@@ -66,7 +66,7 @@ export default function form(template, settings, f) {
         method: rest.method ?? "post",
         action: url ?? "#",
     };
-    const inputs = Object.entries(template).flatMap(([key, value]) => [
+    const inputs = Object.entries(template).filter(el => builder.getField(el[0])).flatMap(([key, value]) => [
         generateLabel(key, builder.getField(key)),
         generateInput(key, value, builder.getField(key)),
     ]);

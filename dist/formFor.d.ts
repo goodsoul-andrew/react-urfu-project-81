@@ -24,5 +24,5 @@ type FormForParams = {
     url?: string;
     method?: "post" | "put" | "delete" | "get";
 };
-export default function form(template: FormTemplate, settings: FormForParams, f?: (builder: FormBuilder) => void): string;
+export default function formFor(template: FormTemplate, settings: FormForParams, f?: (builder: FormBuilder) => void): string;
 export {};
